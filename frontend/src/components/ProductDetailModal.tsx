@@ -29,16 +29,19 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
 
   const handleAddToCart = () => {
     if (!displayProduct) return;
+    
+    const isDrink = displayProduct.category === 'Thức uống';
+    
     addToCart({
       id: Date.now().toString(),
       productId: displayProduct.id,
       name: displayProduct.name,
-      price: displayProduct.price + (size === 'L' ? 10000 : 0) + (toppings.length * 10000),
+      price: displayProduct.price + (isDrink && size === 'L' ? 10000 : 0) + (isDrink ? toppings.length * 10000 : 0),
       quantity,
       image: displayProduct.image,
       note: [
-        `Size: ${size}`,
-        toppings.length > 0 ? `Thêm: ${toppings.join(', ')}` : '',
+        isDrink ? `Size: ${size}` : '',
+        isDrink && toppings.length > 0 ? `Thêm: ${toppings.join(', ')}` : '',
         note ? `Ghi chú: ${note}` : ''
       ].filter(Boolean).join(' | ')
     });
@@ -62,7 +65,8 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
 
   if (!displayProduct) return null;
 
-  const totalPrice = (displayProduct.price + (size === 'L' ? 10000 : 0) + (toppings.length * 10000)) * quantity;
+  const isDrink = displayProduct.category === 'Thức uống';
+  const totalPrice = (displayProduct.price + (isDrink && size === 'L' ? 10000 : 0) + (isDrink ? toppings.length * 10000 : 0)) * quantity;
 
   return (
     <AnimatePresence>
@@ -120,58 +124,62 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
               {product.description || 'Hương vị tuyệt hảo được chuẩn bị bằng công thức đặc biệt của nhà hàng, mang lại trải nghiệm khó quên.'}
             </p>
 
-          {/* Size Selection */}
-          <div className="mb-8">
-            <label className="block text-[16px] font-bold text-gray-900 mb-3">Kích cỡ</label>
-            <div className="flex gap-3">
-              <button 
-                onClick={() => setSize('M')}
-                className={`flex-1 py-3.5 rounded-2xl font-bold text-[15px] transition-all border-2 ${size === 'M' ? 'border-[#154e3d] bg-[#daf0eb] text-[#154e3d]' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
-              >
-                Vừa
-              </button>
-              <button 
-                onClick={() => setSize('L')}
-                className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-2xl font-bold transition-all border-2 ${size === 'L' ? 'border-[#154e3d] bg-[#daf0eb] text-[#154e3d]' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
-              >
-                <span className="text-[15px]">Lớn</span>
-                <span className="text-[12px] font-medium opacity-80">+10.000đ</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Toppings Selection */}
-          <div className="mb-8">
-            <label className="block text-[16px] font-bold text-gray-900 mb-3">Thêm Topping</label>
-            <div className="space-y-3">
-              {[
-                { id: 'tranchau', name: 'Trân châu trắng', price: 10000 },
-                { id: 'thach', name: 'Thạch trái cây', price: 10000 },
-                { id: 'pudding', name: 'Pudding trứng', price: 10000 }
-              ].map(topping => {
-                const isActive = toppings.includes(topping.name);
-                return (
+          {isDrink && (
+            <>
+              {/* Size Selection */}
+              <div className="mb-8">
+                <label className="block text-[16px] font-bold text-gray-900 mb-3">Kích cỡ</label>
+                <div className="flex gap-3">
                   <button 
-                    key={topping.id}
-                    onClick={() => toggleTopping(topping.name)}
-                    className={`w-full flex justify-between items-center p-4 rounded-2xl border-2 transition-colors ${isActive ? 'border-[#154e3d] bg-[#daf0eb]' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}
+                    onClick={() => setSize('M')}
+                    className={`flex-1 py-3.5 rounded-2xl font-bold text-[15px] transition-all border-2 ${size === 'M' ? 'border-[#154e3d] bg-[#daf0eb] text-[#154e3d]' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
                   >
-                    <span className={`text-[15px] ${isActive ? 'text-[#154e3d] font-bold' : 'text-gray-700 font-medium'}`}>
-                      {topping.name}
-                    </span>
-                    <div className="flex items-center gap-3">
-                      <span className={`text-[14px] ${isActive ? 'text-[#154e3d] font-medium' : 'text-gray-500'}`}>
-                        +{topping.price.toLocaleString('vi-VN')}đ
-                      </span>
-                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${isActive ? 'border-[#154e3d] bg-[#154e3d]' : 'border-gray-300'}`}>
-                        {isActive && <Check size={14} className="text-white" strokeWidth={3} />}
-                      </div>
-                    </div>
+                    Vừa
                   </button>
-                );
-              })}
-            </div>
-          </div>
+                  <button 
+                    onClick={() => setSize('L')}
+                    className={`flex-1 flex flex-col items-center justify-center py-2.5 rounded-2xl font-bold transition-all border-2 ${size === 'L' ? 'border-[#154e3d] bg-[#daf0eb] text-[#154e3d]' : 'border-gray-100 bg-white text-gray-500 hover:border-gray-200'}`}
+                  >
+                    <span className="text-[15px]">Lớn</span>
+                    <span className="text-[12px] font-medium opacity-80">+10.000đ</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Toppings Selection */}
+              <div className="mb-8">
+                <label className="block text-[16px] font-bold text-gray-900 mb-3">Thêm Topping</label>
+                <div className="space-y-3">
+                  {[
+                    { id: 'tranchau', name: 'Trân châu trắng', price: 10000 },
+                    { id: 'thach', name: 'Thạch trái cây', price: 10000 },
+                    { id: 'pudding', name: 'Pudding trứng', price: 10000 }
+                  ].map(topping => {
+                    const isActive = toppings.includes(topping.name);
+                    return (
+                      <button 
+                        key={topping.id}
+                        onClick={() => toggleTopping(topping.name)}
+                        className={`w-full flex justify-between items-center p-4 rounded-2xl border-2 transition-colors ${isActive ? 'border-[#154e3d] bg-[#daf0eb]' : 'border-gray-100 bg-gray-50 hover:bg-gray-100'}`}
+                      >
+                        <span className={`text-[15px] ${isActive ? 'text-[#154e3d] font-bold' : 'text-gray-700 font-medium'}`}>
+                          {topping.name}
+                        </span>
+                        <div className="flex items-center gap-3">
+                          <span className={`text-[14px] ${isActive ? 'text-[#154e3d] font-medium' : 'text-gray-500'}`}>
+                            +{topping.price.toLocaleString('vi-VN')}đ
+                          </span>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${isActive ? 'border-[#154e3d] bg-[#154e3d]' : 'border-gray-300'}`}>
+                            {isActive && <Check size={14} className="text-white" strokeWidth={3} />}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Note Input */}
           <div className="mb-6">
