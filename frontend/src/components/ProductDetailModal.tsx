@@ -30,18 +30,16 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
   const handleAddToCart = () => {
     if (!displayProduct) return;
     
-    const isDrink = displayProduct.category === 'Thức uống';
-    
     addToCart({
       id: Date.now().toString(),
       productId: displayProduct.id,
       name: displayProduct.name,
-      price: displayProduct.price + (isDrink && size === 'L' ? 10000 : 0) + (isDrink ? toppings.length * 10000 : 0),
+      price: displayProduct.price + (size === 'L' ? 10000 : 0) + toppings.length * 10000,
       quantity,
       image: displayProduct.image,
       note: [
-        isDrink ? `Size: ${size}` : '',
-        isDrink && toppings.length > 0 ? `Thêm: ${toppings.join(', ')}` : '',
+        `Size: ${size}`,
+        toppings.length > 0 ? `Thêm: ${toppings.join(', ')}` : '',
         note ? `Ghi chú: ${note}` : ''
       ].filter(Boolean).join(' | ')
     });
@@ -65,8 +63,7 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
 
   if (!displayProduct) return null;
 
-  const isDrink = displayProduct.category === 'Thức uống';
-  const totalPrice = (displayProduct.price + (isDrink && size === 'L' ? 10000 : 0) + (isDrink ? toppings.length * 10000 : 0)) * quantity;
+  const totalPrice = (displayProduct.price + (size === 'L' ? 10000 : 0) + toppings.length * 10000) * quantity;
 
   return (
     <AnimatePresence>
@@ -115,17 +112,22 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
           <div className="p-5">
             <div className="flex justify-between items-start mb-2">
               <h2 className="text-[24px] font-extrabold text-gray-900 leading-tight pr-4">{product.name}</h2>
-              <p className="text-[#154e3d] font-extrabold text-[20px] whitespace-nowrap">
-                {product.price.toLocaleString('vi-VN')}<span className="text-[14px] ml-0.5">đ</span>
-              </p>
+              <div className="text-right">
+                <p className="text-[#154e3d] font-extrabold text-[20px] whitespace-nowrap">
+                  {product.price.toLocaleString('vi-VN')}<span className="text-[14px] ml-0.5">đ</span>
+                </p>
+                {product.originalPrice && product.originalPrice > product.price && (
+                  <p className="text-gray-400 font-medium text-[14px] line-through mt-0.5">
+                    {product.originalPrice.toLocaleString('vi-VN')}đ
+                  </p>
+                )}
+              </div>
             </div>
             
             <p className="text-gray-500 text-[14px] leading-relaxed mb-8">
               {product.description || 'Hương vị tuyệt hảo được chuẩn bị bằng công thức đặc biệt của nhà hàng, mang lại trải nghiệm khó quên.'}
             </p>
 
-          {isDrink && (
-            <>
               {/* Size Selection */}
               <div className="mb-8">
                 <label className="block text-[16px] font-bold text-gray-900 mb-3">Kích cỡ</label>
@@ -178,8 +180,6 @@ export const ProductDetailModal = ({ product, isOpen, onClose }: ProductDetailMo
                   })}
                 </div>
               </div>
-            </>
-          )}
 
           {/* Note Input */}
           <div className="mb-6">

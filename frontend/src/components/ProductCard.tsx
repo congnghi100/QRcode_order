@@ -5,13 +5,14 @@ interface ProductCardProps {
   name: string;
   description?: string;
   price: number;
+  originalPrice?: number;
   image: string;
   onAdd: () => void;
   onClick?: () => void;
   viewMode?: 'grid' | 'list';
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ name, description, price, image, onAdd, onClick, viewMode = 'grid' }) => {
+export const ProductCard: React.FC<ProductCardProps> = ({ name, description, price, originalPrice, image, onAdd, onClick, viewMode = 'grid' }) => {
   if (viewMode === 'list') {
     return (
       <div 
@@ -27,11 +28,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ name, description, pri
                 <p className="text-[13px] text-gray-500 line-clamp-2 leading-snug mt-1">{description}</p>
               )}
             </div>
-            <div className="flex flex-col items-end gap-3 shrink-0 h-full">
-              <p className="text-[#599a8d] font-extrabold text-[15px] whitespace-nowrap">
-                {price.toLocaleString('vi-VN')}
-                <span className="text-[12px] ml-0.5 font-bold">đ</span>
-              </p>
+            <div className="flex flex-col items-end gap-2 shrink-0 h-full">
+              <div className="text-right">
+                <p className="text-[#599a8d] font-extrabold text-[15px] whitespace-nowrap">
+                  {price.toLocaleString('vi-VN')}
+                  <span className="text-[12px] ml-0.5 font-bold">đ</span>
+                </p>
+                {originalPrice && originalPrice > price && (
+                  <p className="text-gray-400 font-medium text-[11px] line-through mt-0.5">
+                    {originalPrice.toLocaleString('vi-VN')}đ
+                  </p>
+                )}
+              </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); onAdd(); }}
                 className="w-8 h-8 bg-white text-[#42887C] rounded-lg shadow-sm flex items-center justify-center shrink-0 active:scale-95 transition-transform mt-auto"
@@ -52,6 +60,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ name, description, pri
     >
       <div className="relative">
         <img src={image} alt={name} className="w-full aspect-[4/3] object-cover bg-gray-100" />
+        {originalPrice && originalPrice > price && (
+          <div className="absolute top-3 left-3 bg-red-500 text-white text-[11px] font-bold px-2 py-1 rounded-lg shadow-sm">
+            -{Math.round((1 - price / originalPrice) * 100)}%
+          </div>
+        )}
         <button 
           onClick={(e) => { e.stopPropagation(); onAdd(); }} 
           className="absolute -bottom-3 right-3 w-8 h-8 bg-white text-[#42887C] rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.12)] flex items-center justify-center hover:bg-gray-50 transition-colors z-10"
@@ -74,11 +87,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ name, description, pri
           </div>
         </div>
         
-        <div className="mt-auto">
+        <div className="mt-auto flex items-end gap-2 flex-wrap">
           <p className="text-gray-900 font-extrabold text-[16px]">
             {price.toLocaleString('vi-VN')}
             <span className="text-[13px] ml-0.5 font-bold">đ</span>
           </p>
+          {originalPrice && originalPrice > price && (
+            <p className="text-gray-400 font-medium text-[12px] line-through mb-[2px]">
+              {originalPrice.toLocaleString('vi-VN')}đ
+            </p>
+          )}
         </div>
       </div>
     </div>

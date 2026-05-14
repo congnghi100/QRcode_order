@@ -1,11 +1,11 @@
 export const mockMenu = [
   // Cơm
-  { id: '1', name: 'Cơm Gà Xối Mỡ', description: 'Gà xối mỡ giòn rụm, ăn kèm cơm chiên và đồ chua', price: 45000, category: 'Cơm', image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
+  { id: '1', name: 'Cơm Gà Xối Mỡ', description: 'Gà xối mỡ giòn rụm, ăn kèm cơm chiên và đồ chua', price: 45000, originalPrice: 55000, category: 'Cơm', image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
   { id: '2', name: 'Cơm Tấm Sườn Bì', description: 'Sườn nướng than hoa thơm lừng, bì dai giòn', price: 55000, category: 'Cơm', image: 'https://images.unsplash.com/photo-1552611052-33e04de081de?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
   { id: '3', name: 'Cơm Chiên Hải Sản', description: 'Cơm chiên tôm mực tươi ngon, đậm đà', price: 60000, category: 'Cơm', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
   
   // Mì & Phở
-  { id: '4', name: 'Phở Bò Đặc Biệt', description: 'Nước dùng đậm đà 8 tiếng, thịt bò tươi mềm', price: 50000, category: 'Mì & Phở', image: 'https://images.unsplash.com/photo-1594998893017-36147cbcae05?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
+  { id: '4', name: 'Phở Bò Đặc Biệt', description: 'Nước dùng đậm đà 8 tiếng, thịt bò tươi mềm', price: 50000, originalPrice: 65000, category: 'Mì & Phở', image: 'https://images.unsplash.com/photo-1594998893017-36147cbcae05?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
   { id: '5', name: 'Mì Ý Sốt Bò Bằm', description: 'Spaghetti với sốt cà chua thịt bò bằm truyền thống', price: 65000, category: 'Mì & Phở', image: 'https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
   { id: '6', name: 'Bún Thịt Nướng', description: 'Thịt nướng sả ướp vị, kèm chả giò và nước mắm chua ngọt', price: 45000, category: 'Mì & Phở', image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
 
@@ -25,7 +25,7 @@ export const mockMenu = [
   { id: '15', name: 'Bánh Tiramisu', description: 'Bánh Tiramisu Ý truyền thống thơm hương cà phê', price: 45000, category: 'Tráng miệng', image: 'https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
 
   // Thức uống
-  { id: '16', name: 'Trà Sữa Trân Châu', description: 'Hồng trà sữa truyền thống đậm vị trà, trân châu dai', price: 35000, category: 'Thức uống', image: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
+  { id: '16', name: 'Trà Sữa Trân Châu', description: 'Hồng trà sữa truyền thống đậm vị trà, trân châu dai', price: 35000, originalPrice: 45000, category: 'Thức uống', image: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
   { id: '17', name: 'Trà Đào Cam Sả', description: 'Trà thanh mát, miếng đào giòn ngọt', price: 40000, category: 'Thức uống', image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=400&q=80', isBestSeller: true },
   { id: '18', name: 'Cà Phê Đen Đá', description: 'Cà phê rang xay đậm đà phong cách Việt Nam', price: 25000, category: 'Thức uống', image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
   { id: '19', name: 'Nước Ép Dưa Hấu', description: 'Nước ép trái dưa hấu tươi mát lạnh', price: 30000, category: 'Thức uống', image: 'https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=400&q=80', isBestSeller: false },
